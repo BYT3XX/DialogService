@@ -1,10 +1,26 @@
 # 💬 DialogService 🗨️
 Easy, scriptable dialog with support for choices.
 
-(NOTE: I forgot to convert sizes and position to the scale property while making Beta #1. Will be fixed soon)
+(NOTE: I forgot to convert sizes and position to the scale property while making Beta #1. Will be fixed in Beta #2)
 
 # Symbol Book
 - CROSS: Means that the API call can both be used on client and server scripts thanks to some RunService magic.
+
+# Roadmap
+## Method: DialogService:GetUserInfoByID()
+
+Easily make back-to-back conversations with the player and NPC plus NPCs that can dynamically update with a player’s profile.
+(Expected in Beta #2 (v0-beta.2))
+
+## Method: DialogService:UpdateTextInDialog()
+
+Create basic text animations and more without calling ShowDialog().
+(Expected in Beta #2 (v0-beta.2))
+
+## Method: DialogService:SetCameraPosition()
+
+Easily create more immersive dialogue perspectives and dialogue-animatic hybrids.
+(Expected in Beta #2 or #3 (v0-beta.2 or .3))
 
 # API
 ## DialogService:ShowDialog (CROSS)
@@ -63,4 +79,4 @@ Here is a guide I made in a rush that shows what to not delete and what you are 
 
 ## WHAT YOU ARE ABLE TO DO WITHOUT IT BREAKING
 - Move and scale objects
-- Anything else, like UI styling stuff, changing buttons to ImageButtons, and anything that doesn't delete the important items.
+- Anything else, like UI styling stuff, changing buttons to other UI interaction objects, and anything that doesn't delete the important items.
