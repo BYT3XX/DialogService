@@ -4,11 +4,19 @@ local Signal = require(script.Signal)
 local ShowDialogEvent = Events.ShowDialog
 local HideDialogEvent = Events.HideDialog
 local ShowChoicesEvent = Events.ShowChoices
+local UpdateDialogEvent = Events.UpdateDialog
+local RemoveChoicesEvent = Events.RemoveChoices
+local GetInfoEvent = Events.GetUserInfoByID
+local SendInfoEvent = Events.SendUserInfoByID
 local RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
+local UserService = game:GetService("UserService")
+local LocalizationService = game:GetService("LocalizationService")
 local ChoiceAmount = 0
 
 local DialogService = {}
+
+DialogService.FALLBACK = "rbxassetid://137739665907764"
 
 function DialogService:ShowDialog(
 	Player: Player, 
@@ -74,19 +82,16 @@ function DialogService:ShowChoices(
 	if RunService:IsClient() then
 		local PlayerGui = Players.LocalPlayer:WaitForChild("PlayerGui")
 		if PlayerGui then
-			for _, choice in PlayerGui.DialogFrame.ChoiceContainer.Choices:GetChildren() do
-				choice:Destroy()
+			for _, choice in PlayerGui.DialogGui.DialogFrame.ChoiceContainer.Choices:GetChildren() do
+				if choice:IsA("TextButton") then
+					choice:Destroy()
+				end
 			end
 			ChoiceAmount = 0
-			if PlayerGui.DialogFrame.Visible == true then
+			if PlayerGui.DialogGui.DialogFrame.Visible == true then
 				for _, choice in choiceFolder:GetChildren() do
-					ChoiceAmount = ChoiceAmount + 1
-					local ChoiceToRemove = PlayerGui.DialogFrame.ChoiceContainer.Choices:FindFirstChild("Choice"..ChoiceAmount)
-					if ChoiceToRemove then
-						ChoiceToRemove:Destroy()
-					end
 					local cloneChoice = choice:Clone()
-					cloneChoice.Parent = PlayerGui.DialogFrame.ChoiceContainer.Choices
+					cloneChoice.Parent = PlayerGui.DialogGui.DialogFrame.ChoiceContainer.Choices
 				end
 			end
 		end
@@ -97,6 +102,25 @@ function DialogService:ShowChoices(
 			else
 				ShowChoicesEvent:FireClient(Player, choiceFolder)
 			end
+		end
+	end
+end
+
+function DialogService:RemoveChoices(Player: Player, FireAllClients: boolean)
+	if RunService:IsClient() then
+		local PlayerGui = Players.LocalPlayer:WaitForChild("PlayerGui")
+		if PlayerGui then
+			for _, choice in PlayerGui.DialogGui.DialogFrame.ChoiceContainer.Choices:GetChildren() do
+				if choice:IsA("TextButton") then
+					choice:Destroy()
+				end
+			end
+		end
+	elseif RunService:IsServer() then
+		if FireAllClients == true then
+			RemoveChoicesEvent:FireAllClients()
+		else
+			RemoveChoicesEvent:FireClient(Player)
 		end
 	end
 end
@@ -112,6 +136,29 @@ function DialogService:ShowBoth(
 	DialogService:ShowChoices(choiceFolder, Player, FireAllClients)
 end
 
+function DialogService:UpdateTextInDialog(Player: Player, FireAllClients: boolean, Dialog: string)
+	if RunService:IsClient() then
+		local PlayerGui = Players.LocalPlayer:WaitForChild("PlayerGui")
+		if PlayerGui then
+			local DialogGui = PlayerGui:FindFirstChild("DialogGui")
+			if DialogGui then
+				local DialogFrame = DialogGui:FindFirstChild("DialogFrame")
+				if DialogFrame then
+					local DialogLabel = DialogFrame:FindFirstChild("Dialog")
+					if DialogLabel then
+						DialogLabel.Text = Dialog
+					end
+				end
+			end
+		end
+	elseif RunService:IsServer() then
+		if FireAllClients == true then
+			UpdateDialogEvent:FireAllClients(Dialog)
+		else
+			UpdateDialogEvent:FireClient(Player, Dialog)
+		end
+	end
+end
 
 
 return DialogService
