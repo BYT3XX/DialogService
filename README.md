@@ -1,8 +1,6 @@
 # 💬 DialogService 🗨️
 Easy, scriptable dialog with support for choices.
 
-(NOTE: I forgot to convert sizes and position to the scale property while making Beta #1. Will be fixed in Beta #2)
-
 # Symbol Book
 - CROSS: Means that the API call can both be used on client and server scripts thanks to some RunService magic.
 
@@ -10,17 +8,12 @@ Easy, scriptable dialog with support for choices.
 ## Method: DialogService:GetUserInfoByID()
 
 Easily make back-to-back conversations with the player and NPC plus NPCs that can dynamically update with a player’s profile.
-(Expected in Beta #2 (v0-beta.2))
-
-## Method: DialogService:UpdateTextInDialog()
-
-Create basic text animations and more without calling ShowDialog().
-(Expected in Beta #2 (v0-beta.2))
+(Expected in Beta #4 (v0-beta.4))
 
 ## Method: DialogService:SetCameraPosition()
 
 Easily create more immersive dialogue perspectives and dialogue-animatic hybrids.
-(Expected in Beta #2 or #3 (v0-beta.2 or .3))
+(Expected in Beta #3 or #4 (v0-beta.3 or .4))
 
 # API
 ## DialogService:ShowDialog (CROSS)
